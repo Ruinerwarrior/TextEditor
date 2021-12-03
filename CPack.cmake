@@ -1,0 +1,14 @@
+install(TARGETS TextEditor
+RUNTIME
+DESTINATION bin
+COMPONENT test)
+
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+set(CPACK_PACKAGE_NAME "TextEditor")
+set(CPACK_PACKAGE_VENDOR "Rick Nijhuis")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "vim like TextEditor")
+set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
+
+include(CPack.unix.cmake)
+include(CPack.windows.cmake)
