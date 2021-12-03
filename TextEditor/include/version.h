@@ -1,6 +1,6 @@
 #pragma once
 
-#define VERSION_MAJOR 
-#define VERSION_MINOR 
-#define VERSION_PATCH 
-#define VERSION "v0.0.1-dirty"
+#define VERSION_MAJOR 0
+#define VERSION_MINOR 0
+#define VERSION_PATCH 1
+#define VERSION "0.0.1"
