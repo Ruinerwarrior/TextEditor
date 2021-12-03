@@ -28,16 +28,27 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${OUTPUT_DIRECTORY}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_DIRECTORY}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIRECTORY}/bin)
 
+find_package(Git)
+add_custom_target(version
+  ${CMAKE_COMMAND} -D SRC=${PROJECT_SOURCE_DIR}/version.h.in
+                   -D DST=${PROJECT_SOURCE_DIR}/${PROJECT_NAME}/include/version.h
+                   -D GIT_EXECUTABLE=${GIT_EXECUTABLE}
+                   -P ${CMAKE_SOURCE_DIR}/GenerateVersion.cmake
+  )
+
+
 # make version available in code
-configure_file (
-    "${PROJECT_SOURCE_DIR}/version.h.in"
-    "${PROJECT_SOURCE_DIR}/${PROJECT_NAME}/include/version.h"
-)
+# configure_file (
+#     "${PROJECT_SOURCE_DIR}/version.h.in"
+#     "${PROJECT_SOURCE_DIR}/${PROJECT_NAME}/include/version.h"
+# )
 
 include(CTest)
 enable_testing()
 
 add_subdirectory("TextEditor")
+
+add_dependencies(TextEditor version)
 
 include(CPack.cmake)
 include(CPack)
