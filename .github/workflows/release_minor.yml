@@ -1,4 +1,5 @@
-name: release_minor
+name: release_patch
+
 on: workflow_dispatch
 
 env:
@@ -6,9 +7,11 @@ env:
   BUILD_TYPE: Release
 jobs:
   build:
-    runs-on: ubuntu_latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Update git tag version 
-      working-directory: ${{github.workspace}}/TextEditor
+      with:
+        fetch-depth: 0
+
+    - name: Update git tag version
       run: cmake -DBUMB_VERSION=MINOR -P BumbVersion.cmake
