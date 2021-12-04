@@ -1,4 +1,4 @@
-name: release_patch
+name: release_minor
 
 on: workflow_dispatch
 

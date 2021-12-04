@@ -1,4 +1,4 @@
-name: release_patch
+name: release_major
 
 on: workflow_dispatch
 
