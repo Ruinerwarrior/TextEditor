@@ -1,7 +1,6 @@
 find_package(Git)
 
 if(GIT_EXECUTABLE)
-  #get_filename_component(SRC_DIR ${SRC} DIRECTORY)
   # Generate a git-describe version string from Git repository tags
   execute_process(
     COMMAND ${GIT_EXECUTABLE} describe --tags --dirty --match "v*"
@@ -22,4 +21,4 @@ if(NOT DEFINED CURRENT_TAG)
   message(WARNING "Failed to determine FOOBAR_VERSION from Git tags. Using default version \"${CURRENT_TAG}\".")
 endif()
 
-string(REGEX MATCH "[^v-][\\.][0-9][\\.][0-9]" CURRENT_VERSION ${CURRENT_TAG})
+string(REGEX MATCH "[^v-]+[\\.][0-9]+[\\.][0-9]+" CURRENT_VERSION ${CURRENT_TAG})
