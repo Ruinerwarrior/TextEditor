@@ -13,6 +13,5 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Update git tag version 
-      working-directory: ${{github.workspace}}/TextEditor
+    - name: Update git tag version
       run: cmake -DBUMB_VERSION=PATCH -P BumbVersion.cmake
