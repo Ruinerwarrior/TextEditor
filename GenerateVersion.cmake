@@ -22,3 +22,5 @@ if(NOT DEFINED CURRENT_TAG)
 endif()
 
 string(REGEX MATCH "[^v-]+[\\.][0-9]+[\\.][0-9]+" CURRENT_VERSION ${CURRENT_TAG})
+
+message(STATUS "Version is set at ${CURRENT_VERSION}")
