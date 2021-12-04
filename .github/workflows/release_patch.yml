@@ -12,6 +12,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
+        ssh-key: "${{ secrets.TEXTEDITORCOMMITKEY }}"
 
     - name: Update git tag version
       run: cmake -DBUMB_VERSION=PATCH -P BumbVersion.cmake
