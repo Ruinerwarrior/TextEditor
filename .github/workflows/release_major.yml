@@ -5,52 +5,10 @@ env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
 jobs:
-  # bumb_version:
-  #   runs-on: ubuntu_latest
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - name: Update git tag version 
-  #     working-directory: ${{github.workspace}}/TextEditor
-  #     run: cmake -DBUMB_VERSION=MAJOR -P BumbVersion.cmake
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
-        include:
-        - os: macos-latest
-        - os: ubuntu-latest
-        - os: windows-latest
+  bumb_version:
+    runs-on: ubuntu_latest
     steps:
     - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-
-    - name: Get the version
-      id: get_version
-      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-
-    - name: Get the version
-      id: echo_version
-      run: echo ${{ steps.get_version.outputs.VERSION }}
-
-    - name: Configure CMake
+    - name: Update git tag version 
       working-directory: ${{github.workspace}}/TextEditor
-      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
-      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B ${{github.workspace}}//build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DBUILD_TESTS=ON ..
-
-    - name: Build
-      working-directory: ${{github.workspace}}/TextEditor
-      # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-
-    - name: Test
-      working-directory: ${{github.workspace}}/build
-      # Execute tests defined by the CMake configuration.  
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -VV --no-compress-output -T Test
-    
-    - name: Release
-      run: |
-        curl example.com
+      run: cmake -DBUMB_VERSION=MAJOR -P BumbVersion.cmake
