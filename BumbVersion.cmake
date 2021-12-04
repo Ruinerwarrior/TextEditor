@@ -62,15 +62,19 @@ if(GIT_EXECUTABLE)
     )
   if(GIT_DESCRIBE_ERROR_CODE)
     message(FATAL_ERROR "Unable to bumb version to ${NEW_TAG}")
+  else()
+    message(STATUS "git tag bumbed to ${NEW TAG}")
   endif()
 
-    # update git tag
-    execute_process(
-      COMMAND ${GIT_EXECUTABLE} push origin ${NEW_TAG}
-      WORKING_DIRECTORY .
-      RESULT_VARIABLE GIT_DESCRIBE_ERROR_CODE
-      )
-    if(GIT_DESCRIBE_ERROR_CODE)
-      message(FATAL_ERROR "Unable to push version")
-    endif()
+  # update git tag
+  execute_process(
+    COMMAND ${GIT_EXECUTABLE} push origin ${NEW_TAG}
+    WORKING_DIRECTORY .
+    RESULT_VARIABLE GIT_DESCRIBE_ERROR_CODE
+    )
+  if(GIT_DESCRIBE_ERROR_CODE)
+    message(FATAL_ERROR "Unable to push version")
+    else()
+    message(STATUS "git tag pushed to origin")
+  endif()
 endif()
