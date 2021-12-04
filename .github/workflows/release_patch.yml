@@ -31,6 +31,9 @@ jobs:
       run: |
         echo $RELEASE_VERSION
         echo ${{ env.RELEASE_VERSION }}
+    - name: Test
+      run: |
+        echo $GITHUB_REF
 
     - name: Configure CMake
       working-directory: ${{github.workspace}}/TextEditor
