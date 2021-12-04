@@ -5,7 +5,7 @@ env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
 jobs:
-  bumb_version:
+  build:
     runs-on: ubuntu_latest
     steps:
     - uses: actions/checkout@v2
