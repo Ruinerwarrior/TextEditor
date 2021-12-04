@@ -21,10 +21,11 @@ if(NOT DEFINED CURRENT_TAG)
   message(WARNING "Failed to determine FOOBAR_VERSION from Git tags. Using default version \"${CURRENT_TAG}\".")
 endif()
 
-string(REGEX MATCH "[^v-]+[\\.][0-9]+[\\.][0-9]+"   CURRENT_VERSION ${CURRENT_TAG})
+string(REGEX MATCH "[^v-]+[\\.][0-9]+[\\.][0-9]+" CURRENT_VERSION ${CURRENT_TAG})
 string(FIND ${CURRENT_VERSION} "." DOT_ONE_POS)
 string(FIND ${CURRENT_VERSION} "." DOT_TWO_POS REVERSE)
 string(LENGTH ${CURRENT_VERSION} CURRENT_VERSION_LENGTH)
+
 MATH(EXPR CURRENT_MINOR_INDEX "${DOT_ONE_POS} + 1")
 MATH(EXPR CURRENT_MINOR_LENGHT "${DOT_TWO_POS} - ${CURRENT_MINOR_INDEX}")
 MATH(EXPR CURRENT_PATCH_INDEX "${DOT_TWO_POS} + 1")
@@ -62,4 +63,14 @@ if(GIT_EXECUTABLE)
   if(GIT_DESCRIBE_ERROR_CODE)
     message(FATAL_ERROR "Unable to bumb version to ${NEW_TAG}")
   endif()
+
+    # update git tag
+    execute_process(
+      COMMAND ${GIT_EXECUTABLE} push origin ${NEW_TAG}
+      WORKING_DIRECTORY .
+      RESULT_VARIABLE GIT_DESCRIBE_ERROR_CODE
+      )
+    if(GIT_DESCRIBE_ERROR_CODE)
+      message(FATAL_ERROR "Unable to push version")
+    endif()
 endif()
