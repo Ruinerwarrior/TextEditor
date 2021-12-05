@@ -63,7 +63,7 @@ if(GIT_EXECUTABLE)
   if(GIT_DESCRIBE_ERROR_CODE)
     message(FATAL_ERROR "Unable to bumb version to ${NEW_TAG}")
   else()
-    message(STATUS "git tag bumbed to ${NEW TAG}")
+    message(STATUS "git tag bumbed to ${NEW_TAG}")
   endif()
 
   # update git tag
