@@ -42,4 +42,11 @@ jobs:
     
     - name: Release
       run: |
-        curl -X POST -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/Ruinerwarrior/TextEditor/releases -d '{"tag_name": ${{github.ref}}, "discussion_category_name": "Announcements"}'
+          curl --request POST \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'Accept: application/vnd.github.v3+json' \
+          --url https://api.github.com/repos/Ruinerwarrior/TextEditor/releases \
+          --data '{ \
+           "tag_name": ${{github.ref}}, \
+           "discussion_category_name": "Announcements", \
+           }'
