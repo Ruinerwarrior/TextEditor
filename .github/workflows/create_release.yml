@@ -46,7 +46,6 @@ jobs:
           --request POST \
           --header "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           --header "Accept: application/vnd.github.v3+json" \
-          --header "content-type: application/json" \
           --url "https://api.github.com/repos/Ruinerwarrior/TextEditor/releases" \
           --data '{ \
            "tag_name": "${{github.ref}}", \
