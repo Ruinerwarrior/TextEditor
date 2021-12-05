@@ -58,4 +58,4 @@ jobs:
     - name: Upload asset
       id: upload_asset
       run: |
-          echo ${{steps.vars.outputs.release_response}}
+          echo "${{steps.vars.outputs.release_response}}"
