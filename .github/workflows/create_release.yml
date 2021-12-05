@@ -52,7 +52,7 @@ jobs:
            "tag_name": "${{github.ref}}",
            "discussion_category_name": "Announcements"
            }') \
-          echo "the response is $response" \
+          echo "the response is $response" |
           echo "::set-output name=release_response::$($response)"
     
     - name: Upload asset
