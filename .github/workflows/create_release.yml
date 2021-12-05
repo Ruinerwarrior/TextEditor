@@ -41,8 +41,9 @@ jobs:
       run: ctest -VV --no-compress-output -T Test
     
     - name: Release
+      id: create_release
       run: |
-          curl \
+          response=$(curl \
           --request POST \
           --header "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           --header "Accept: application/vnd.github.v3+json" \
@@ -50,4 +51,10 @@ jobs:
           --data '{
            "tag_name": "${{github.ref}}",
            "discussion_category_name": "Announcements"
-           }'
+           }') \
+          echo "::set-output name=release_response::$($response)"
+    
+    - name: Upload asset
+      id: upload_asset
+      run: |
+          echo ${{steps.vars.outputs.release_response}}
