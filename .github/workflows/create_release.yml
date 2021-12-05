@@ -47,6 +47,6 @@ jobs:
           --header 'Accept: application/vnd.github.v3+json' \
           --url https://api.github.com/repos/Ruinerwarrior/TextEditor/releases \
           --data '{ \
-           "tag_name": ${{github.ref}}, \
+           "tag_name": "${{github.ref}}", \
            "discussion_category_name": "Announcements", \
            }'
