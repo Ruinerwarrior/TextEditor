@@ -26,8 +26,8 @@ jobs:
       id: test_1
       run: echo ::set-output name=test::"thisisatest"
 
-    - name: Test1
-      id: test_1
+    - name: Test2
+      id: test_2
       run: echo ${{ steps.vars.outputs.test }}
 
     - name: Get git tag
