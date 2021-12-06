@@ -28,7 +28,9 @@ jobs:
 
     - name: Test2
       id: test_2
-      run: echo "${{ steps.vars.outputs.test }}"
+      with:
+      tag_name: ${{ steps.version.outputs.test }}
+      run: echo $tag_name
 
     - name: Get git tag
       id: get_git_tag
