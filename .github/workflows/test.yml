@@ -21,6 +21,14 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
+    
+    - name: Test1
+      id: test_1
+      run: echo ::set-output name=test::"thisisatest"
+
+    - name: Test1
+      id: test_1
+      run: echo ${{ steps.vars.outputs.test }}
 
     - name: Get git tag
       id: get_git_tag
@@ -28,4 +36,4 @@ jobs:
 
     - name: Echo git tag
       id: echo_git_tag
-      run: echo ${{ steps.vars.outputs.docker_tag }}
+      run: echo ${{ steps.vars.outputs.git_tag }}
