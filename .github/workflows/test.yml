@@ -28,9 +28,8 @@ jobs:
 
     - name: Test2
       id: test_2
-      with:
       run: echo ${{ env.TEST }}
-      
+
     - name: Get git tag
       id: get_git_tag
       run: cmake -P GetGitTag.cmake
