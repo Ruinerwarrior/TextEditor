@@ -1,10 +1,12 @@
 cmake_minimum_required(VERSION 3.21.1)
 
 # get version from git tag or create default
-include(GenerateVersion.cmake)
+if(NOT ${PROJECT_VERSION})
+    include(GenerateVersion.cmake)
+endif()
 
 project(TextEditor 
-VERSION ${CURRENT_VERSION}
+VERSION ${PROJECT_VERSION}
 LANGUAGES C
 DESCRIPTION "Vim like editor for windows, linux and mac" 
 HOMEPAGE_URL "https://github.com/Ruinerwarrior/TextEditor")

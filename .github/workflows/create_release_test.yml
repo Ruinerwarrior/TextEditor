@@ -1,0 +1,43 @@
+name: release_major
+
+on: 
+  workflow_dispatch:
+    inputs:
+      BUMB_VERSION_PART:
+        description: 'version part to bumb, can be MAJOR, MINOR or PATCH'     
+        required: true
+        default: 'MINOR'
+          
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        ssh-key: "${{ secrets.TEXTEDITORCOMMITKEY }}"
+
+    - name: Get git tag
+      id: get_git_tag
+      run: cmake -P GetGitTag.cmake
+
+    - name: Update git tag version
+      id: update_git_tag
+      run: cmake -DBUMB_VERSION=${{github.event.inputs.BUMB_VERSION_PART}} -DCURRENT_TAG=${{steps.get_git_tag.outputs.CURRENT_TAG}} -P BumbVersion.cmake
+
+    - name: Configure CMake
+      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+      run: cmake -B ${{github.workspace}}//build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DPROJECT_VERSION=${{steps.update_git_tag.outputs.NEW_VERSION}} -DBUILD_TESTS=ON ..
+
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
+    - name: Test
+      working-directory: ${{github.workspace}}/build
+      # Execute tests defined by the CMake configuration.  
+      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+      run: ctest -VV --no-compress-output -T Test

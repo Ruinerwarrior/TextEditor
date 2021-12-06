@@ -1,19 +1,5 @@
 find_package(Git)
 
-if(GIT_EXECUTABLE)
-  # Generate a git-describe version string from Git repository tags
-  execute_process(
-    COMMAND ${GIT_EXECUTABLE} describe --tags --dirty --match "v*"
-    WORKING_DIRECTORY .
-    OUTPUT_VARIABLE GIT_DESCRIBE_VERSION
-    RESULT_VARIABLE GIT_DESCRIBE_ERROR_CODE
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-  if(NOT GIT_DESCRIBE_ERROR_CODE)
-    set(CURRENT_TAG ${GIT_DESCRIBE_VERSION})
-  endif()
-endif()
-
 # Final fallback: Just use a bogus version string that is semantically older
 # than anything else and spit out a warning to the developer.
 if(NOT DEFINED CURRENT_TAG)
@@ -49,7 +35,8 @@ elseif(${BUMB_VERSION} STREQUAL "PATCH")
   MATH(EXPR NEW_PATCH_VERSION "${CURRENT_PATCH_VERSION} + 1")
 endif()
 
-SET(NEW_TAG "v${NEW_MAJOR_VERSION}.${NEW_MINOR_VERSION}.${NEW_PATCH_VERSION}")
+SET(NEW_VERSION "${NEW_MAJOR_VERSION}.${NEW_MINOR_VERSION}.${NEW_PATCH_VERSION}")
+SET(NEW_TAG "v${NEW_VERSION}")
 
 message(STATUS "Bumping version from ${CURRENT_TAG} to ${NEW_TAG}")
 
@@ -78,3 +65,9 @@ if(GIT_EXECUTABLE)
     message(STATUS "git tag pushed to origin")
   endif()
 endif()
+
+message("::set-output name=NEW_TAG::${NEW_TAG}")
+message("::set-output name=NEW_VERSION::${NEW_VERSION}")
+message("::set-output name=NEW_MAJOR_VERSION::${NEW_MAJOR_VERSION}")
+message("::set-output name=NEW_MINOR_VERSION::${NEW_MINOR_VERSION}")
+message("::set-output name=NEW_PATCH_VERSION::${NEW_PATCH_VERSION}")
