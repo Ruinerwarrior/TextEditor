@@ -36,4 +36,4 @@ jobs:
 
     - name: Echo git tag
       id: echo_git_tag
-      run: echo "${{ steps.vars.outputs.git_tag }}"
+      run: echo "${{ env.CURRENT_VERSION }}"
