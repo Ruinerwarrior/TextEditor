@@ -12,8 +12,14 @@ env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
 jobs:
-  build:
+  git_version_update:
     runs-on: ubuntu-latest
+    outputs:
+      new_version_tag: ${{steps.get_git_tag.}}
+      new_version:
+      new_version_major:
+      new_version_minor:
+      new_version_patch:
     steps:
     - uses: actions/checkout@v2
       with:
@@ -26,7 +32,7 @@ jobs:
 
     - name: Update git tag version
       id: update_git_tag
-      run: cmake -DBUMB_VERSION=${{github.event.inputs.BUMB_VERSION_PART}} -DCURRENT_TAG=${{steps.get_git_tag.outputs.CURRENT_TAG}} -P BumbVersion.cmake
+      run: cmake -DBUMB_VERSION=${{github.event.inputs.BUMB_VERSION_PART}} -DCURRENT_TAG=${{steps.get_git_tag.outputs.current_version_tag}} -P BumbVersion.cmake
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
