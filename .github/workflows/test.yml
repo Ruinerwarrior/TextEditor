@@ -24,14 +24,13 @@ jobs:
     
     - name: Test1
       id: test_1
-      run: echo ::set-output name=test::"thisisatest"
+      run: echo "TEST=haha" >> $GITHUB_ENV
 
     - name: Test2
       id: test_2
       with:
-        tag_name: ${{ steps.version.outputs.test }}
-      run: echo $tag_name
-
+      run: echo ${{ env.TEST }}
+      
     - name: Get git tag
       id: get_git_tag
       run: cmake -P GetGitTag.cmake
