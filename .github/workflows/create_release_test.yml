@@ -1,4 +1,4 @@
-name: release_major
+name: create_release_test
 
 on: 
   workflow_dispatch:
