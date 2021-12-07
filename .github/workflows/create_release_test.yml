@@ -15,11 +15,11 @@ jobs:
   git_version_update:
     runs-on: ubuntu-latest
     outputs:
-      new_version_tag: ${{steps.get_git_tag.}}
-      new_version:
-      new_version_major:
-      new_version_minor:
-      new_version_patch:
+      new_version_tag: ${{steps.update_git_tag.new_version_tag}}
+      new_version: ${{steps.update_git_tag.new_version}}
+      new_version_major: ${{steps.update_git_tag.new_version_major}}
+      new_version_minor: ${{steps.update_git_tag.new_version_minor}}
+      new_version_patch: ${{steps.update_git_tag.new_version_patch}}
     steps:
     - uses: actions/checkout@v2
       with:
@@ -33,17 +33,26 @@ jobs:
     - name: Update git tag version
       id: update_git_tag
       run: cmake -DBUMB_VERSION=${{github.event.inputs.BUMB_VERSION_PART}} -DCURRENT_TAG=${{steps.get_git_tag.outputs.current_version_tag}} -P BumbVersion.cmake
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+        include:
+        - os: macos-latest
+        - os: ubuntu-latest
+        - os: windows-latest
+    steps:
+      - name: Configure CMake
+        # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+        # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+        run: cmake -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DPROJECT_VERSION=${{steps.update_git_tag.outputs.NEW_VERSION}} -DBUILD_TESTS=ON ..
 
-    - name: Configure CMake
-      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
-      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DPROJECT_VERSION=${{steps.update_git_tag.outputs.NEW_VERSION}} -DBUILD_TESTS=ON ..
+      - name: Build
+        run: cmake --build build --config ${{env.BUILD_TYPE}}
 
-    - name: Build
-      run: cmake --build build --config ${{env.BUILD_TYPE}}
-
-    - name: Test
-      working-directory: build
-      # Execute tests defined by the CMake configuration.  
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -VV --no-compress-output -T Test
+      - name: Test
+        working-directory: build
+        # Execute tests defined by the CMake configuration.  
+        # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+        run: ctest -VV --no-compress-output -T Test 

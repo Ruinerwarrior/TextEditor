@@ -2,9 +2,13 @@ find_package(Git)
 
 # Final fallback: Just use a bogus version string that is semantically older
 # than anything else and spit out a warning to the developer.
+if(NOT DEFINED BUMB_VERSION)
+set(CURRENT_TAG 0.0.0)
+message(WARNING "Failed to determine BUMB_VERSION. bumbing MINOR version.")
+endif()
 if(NOT DEFINED CURRENT_TAG)
   set(CURRENT_TAG 0.0.0)
-  message(WARNING "Failed to determine FOOBAR_VERSION from Git tags. Using default version \"${CURRENT_TAG}\".")
+  message(WARNING "Failed to determine CURRENT_TAG from Git tags. Using default version ${CURRENT_TAG}.")
 endif()
 
 string(REGEX MATCH "[^v-]+[\\.][0-9]+[\\.][0-9]+" CURRENT_VERSION ${CURRENT_TAG})
