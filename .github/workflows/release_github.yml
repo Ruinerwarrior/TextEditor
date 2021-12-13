@@ -43,6 +43,10 @@ jobs:
         - os: ubuntu-latest
         - os: windows-latest
     steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ssh-key: "${{ secrets.TEXTEDITORCOMMITKEY }}"
       - name: Configure CMake
         working-directory: ${{github.workspace}}
         # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
