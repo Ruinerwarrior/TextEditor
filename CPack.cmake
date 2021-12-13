@@ -9,6 +9,7 @@ set(CPACK_PACKAGE_NAME "TextEditor")
 set(CPACK_PACKAGE_VENDOR "Rick Nijhuis")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "vim like TextEditor")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
+SET(CPACK_OUTPUT_FILE_PREFIX installer)
 
 include(CPack.unix.cmake)
 include(CPack.windows.cmake)
