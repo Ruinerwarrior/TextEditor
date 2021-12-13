@@ -60,7 +60,7 @@ jobs:
         run: ctest -VV --no-compress-output -T Test
         
       - name: Create Installer
-        working-directory: working-directory: ${{github.workspace}}/build
+        working-directory: ${{github.workspace}}/build
         # Create installer defined by the CMake configuration
         # See https://cmake.org/cmake/help/latest/module/CPack.html for more detail
         run: cpack -C Release
