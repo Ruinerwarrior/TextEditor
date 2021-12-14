@@ -47,7 +47,7 @@ jobs:
           fetch-depth: 0
           ssh-key: "${{ secrets.TEXTEDITORCOMMITKEY }}"
 
-        run: echo ${{github.workspace}}
+      - run: echo ${{github.workspace}}
           
       - name: Configure CMake
         working-directory: ${{github.workspace}}
