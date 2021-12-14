@@ -109,7 +109,7 @@ jobs:
         run: ls -lR
         
       - name: Debug1
-        run: echo "${{github}}"
+        run: echo ${{github}}
         
       - name: Create Release
         id: create_release
