@@ -109,7 +109,7 @@ jobs:
         run: ls -lR
         
       - name: Debug1
-        run: echo ${{needs.build.outputs.new_version_tag}}
+        run: echo "$GITHUB_CONTEXT"
         
       - name: Create Release
         id: create_release
