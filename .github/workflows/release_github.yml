@@ -54,7 +54,7 @@ jobs:
           ssh-key: "${{ secrets.TEXTEDITORCOMMITKEY }}"
       
       - run: |
-          echo "${{needs.git_version_update.outputs.test}}"
+          echo ${{needs.git_version_update.outputs.test}}
           
       - name: Configure CMake
         working-directory: ${{github.workspace}}
