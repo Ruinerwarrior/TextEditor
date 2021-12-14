@@ -35,7 +35,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     needs: git_version_update
     outputs:
-      new_version_tag: ${{{needs.git_version_update.outputs.new_version_tag}}
+      new_version_tag: ${{needs.git_version_update.outputs.new_version_tag}}
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
