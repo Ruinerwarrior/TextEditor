@@ -79,7 +79,7 @@ jobs:
           path: build/installer
   release:
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, git_version_update]
     steps:
       - name: Download windows build
         uses: actions/download-artifact@v2.1.0
@@ -128,5 +128,5 @@ jobs:
           curl \
           --header "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           --header "Content-Type: application/zip" \
-          --data-binary @windows-latest/TextEditor-${{needs.build.outputs.new_version}}-win64.zip  \
-          "https://uploads.github.com/repos/Ruinerwarrior/TextEditor/releases/${{needs.build.outputs.new_version_tag}}/assets?name=TextEditor-${{needs.build.outputs.new_version}}-win64.zip"
+          --data-binary @windows-latest/TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip  \
+          "https://uploads.github.com/repos/Ruinerwarrior/TextEditor/releases/${{needs.git_version_update.outputs.new_version_tag}}/assets?name=TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip"
