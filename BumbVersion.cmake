@@ -70,7 +70,7 @@ if(GIT_EXECUTABLE)
   endif()
 endif()
 
-message("::set-output name=new_tag::${NEW_TAG}")
+message("::set-output name=new_tag::${NEW_VERSION_TAG}")
 message("::set-output name=new_version::${NEW_VERSION}")
 message("::set-output name=new_version_major::${NEW_MAJOR_VERSION}")
 message("::set-output name=new_version_minor::${NEW_MINOR_VERSION}")
