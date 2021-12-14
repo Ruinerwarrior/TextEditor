@@ -100,4 +100,5 @@ jobs:
           name: macos-latest
           # Destination path
           path: macos-latest
-      
+      - name: Debug
+        run: ls -lR
