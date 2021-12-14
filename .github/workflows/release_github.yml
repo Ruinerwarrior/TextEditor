@@ -36,6 +36,7 @@ jobs:
     needs: git_version_update
     outputs:
       new_version_tag: ${{needs.git_version_update.outputs.new_version_tag}}
+      new_version: ${{needs.git_version_update.outputs.new_version}}
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
@@ -110,7 +111,7 @@ jobs:
       - name: Create Release
         id: create_release
         run: |
-          response=$(curl \
+            curl \
             --request POST \
             --header "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             --header "Accept: application/vnd.github.v3+json" \
@@ -118,4 +119,11 @@ jobs:
             --data '{
              "tag_name": "${{needs.build.outputs.new_version_tag}}",
              "discussion_category_name": "Announcements"
-             }')
+             }'
+      - name: Upload windows release assets
+        run: |
+          curl \
+          --header "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          --header "Content-Type: application/zip" \
+          --data-binary @windows-latest/TextEditor-${{needs.build.outputs.new_version}}-win64.zip  \
+          "https://uploads.github.com/repos/Ruinerwarrior/TextEditor/releases/${{needs.build.outputs.new_version_tag}}/assets?name=TextEditor-${{needs.build.outputs.new_version}}-win64.zip"
