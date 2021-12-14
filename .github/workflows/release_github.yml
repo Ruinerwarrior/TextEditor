@@ -51,7 +51,8 @@ jobs:
           fetch-depth: 0
           ssh-key: "${{ secrets.TEXTEDITORCOMMITKEY }}"
       
-      - run: echo ${{needs.git_version_update.outputs.new_version_tag}} ${{needs.git_version_update.outputs.new_version}}
+      - run: |
+          echo ${{needs.git_version_update.outputs.new_version_tag}} ${{needs.git_version_update.outputs.new_version}}
           
       - name: Configure CMake
         working-directory: ${{github.workspace}}
@@ -85,7 +86,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [git_version_update, build]
     steps:
-      - run: echo ${{needs.git_version_update.outputs.new_version_tag}} ${{needs.git_version_update.outputs.new_version}}
+      - run: |
+          echo ${{needs.git_version_update.outputs.new_version_tag}} ${{needs.git_version_update.outputs.new_version}}
       
       - name: Download windows build
         uses: actions/download-artifact@v2.1.0
@@ -110,10 +112,6 @@ jobs:
           name: macos-latest
           # Destination path
           path: macos-latest
-          
-      - name: Debug
-        run: |
-          echo ${{toJson(needs)}}
         
       - name: Create Release
         id: create_release
