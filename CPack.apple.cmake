@@ -1,3 +1,0 @@
-if(APPLE)
-set(CPACK_GENERATOR DragNDrop)
-endif(APPLE)
