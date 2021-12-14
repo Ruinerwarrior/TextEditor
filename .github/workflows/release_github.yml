@@ -83,7 +83,7 @@ jobs:
           path: build/installer
   release:
     runs-on: ubuntu-latest
-    needs: git_version_update
+    needs: [git_version_update, build]
     steps:
       - run: echo ${{needs.git_version_update.outputs.new_version_tag}} ${{needs.git_version_update.outputs.new_version}}
       
