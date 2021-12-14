@@ -70,6 +70,12 @@ if(GIT_EXECUTABLE)
   endif()
 endif()
 
+message(STATUS ${NEW_VERSION_TAG})
+message(STATUS ${NEW_VERSION})
+message(STATUS ${NEW_VERSION_MAJOR})
+message(STATUS ${NEW_VERSION_MINOR})
+message(STATUS ${NEW_VERSION_PATCH})
+
 message("::set-output name=new_version_tag::${NEW_VERSION_TAG}")
 message("::set-output name=new_version::${NEW_VERSION}")
 message("::set-output name=new_version_major::${NEW_VERSION_MAJOR}")
