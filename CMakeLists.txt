@@ -29,8 +29,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIRECTORY}/bin)
 
 # make version available in code
 configure_file (
-    "${PROJECT_SOURCE_DIR}/version.h.in"
-    "${PROJECT_SOURCE_DIR}/${PROJECT_NAME}/include/version.h"
+    "./version.h.in"
+    "./${PROJECT_NAME}/include/version.h"
 )
 
 include(CTest)
