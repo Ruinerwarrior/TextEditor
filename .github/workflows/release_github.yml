@@ -23,7 +23,8 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
-        
+        ssh-key: "${{ secrets.TEXTEDITORCOMMITKEY }}"
+
     - name: Get git tag
       id: get_git_tag
       run: cmake -P GetGitTag.cmake
@@ -48,6 +49,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          ssh-key: "${{ secrets.TEXTEDITORCOMMITKEY }}"
           
       - name: Configure CMake
         working-directory: ${{github.workspace}}
