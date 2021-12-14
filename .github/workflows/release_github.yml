@@ -51,7 +51,7 @@ jobs:
       
       - name: Debug
         run: |
-          echo ${{toJson(needs)}}
+          echo ${{toJson(needs.git_version_update.outputs)}}
           
       - name: Configure CMake
         working-directory: ${{github.workspace}}
