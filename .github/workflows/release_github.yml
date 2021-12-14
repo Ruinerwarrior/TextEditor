@@ -19,6 +19,7 @@ jobs:
       new_version_major: ${{ steps.update_git_tag.new_version_major }}
       new_version_minor: ${{ steps.update_git_tag.new_version_minor }}
       new_version_patch: ${{ steps.update_git_tag.new_version_patch }}
+      test: "test1"
     steps:
     - uses: actions/checkout@v2
       with:
@@ -53,7 +54,7 @@ jobs:
           ssh-key: "${{ secrets.TEXTEDITORCOMMITKEY }}"
       
       - run: |
-          echo ${{needs.git_version_update.outputs.new_version_tag}} ${{needs.git_version_update.outputs.new_version}}
+          echo ${{needs.git_version_update.outputs.test}}
           
       - name: Configure CMake
         working-directory: ${{github.workspace}}
