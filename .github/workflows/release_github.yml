@@ -23,8 +23,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
-        ssh-key: "${{ secrets.TEXTEDITORCOMMITKEY }}"
-
+        
     - name: Get git tag
       id: get_git_tag
       run: cmake -P GetGitTag.cmake
@@ -46,7 +45,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          ssh-key: "${{ secrets.TEXTEDITORCOMMITKEY }}"
+          
       - name: Configure CMake
         working-directory: ${{github.workspace}}
         # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
@@ -86,6 +85,7 @@ jobs:
           name: windows-latest
           # Destination path
           path: windows-latest
+          
       - name: Download ubuntu build
         uses: actions/download-artifact@v2.1.0
         with:
@@ -93,6 +93,7 @@ jobs:
           name: ubuntu-latest
           # Destination path
           path: ubuntu-latest
+          
       - name: Download macos build
         uses: actions/download-artifact@v2.1.0
         with:
@@ -100,5 +101,19 @@ jobs:
           name: macos-latest
           # Destination path
           path: macos-latest
+          
       - name: Debug
         run: ls -lR
+        
+      - name: Create Release
+        id: create_release
+        run: |
+            response=$(curl \
+            --request POST \
+            --header "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            --header "Accept: application/vnd.github.v3+json" \
+            --url "https://api.github.com/repos/Ruinerwarrior/TextEditor/releases" \
+            --data '{
+             "tag_name": "${{github.ref}}",
+             "discussion_category_name": "Announcements"
+             }')
