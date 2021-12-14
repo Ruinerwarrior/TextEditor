@@ -50,6 +50,10 @@ jobs:
         with:
           fetch-depth: 0
           ssh-key: "${{ secrets.TEXTEDITORCOMMITKEY }}"
+      
+      - name: Debug
+        run: |
+          echo ${{toJson(needs.git_version_update.outputs)}}
           
       - name: Configure CMake
         working-directory: ${{github.workspace}}
@@ -108,11 +112,8 @@ jobs:
           path: macos-latest
           
       - name: Debug
-        run: ls -lR
-        
-      - name: Debug1
         run: |
-          echo "new tag: ${{needs.git_version_update.outputs.new_version_tag}}"
+          echo ${{toJson(needs)}}
         
       - name: Create Release
         id: create_release
