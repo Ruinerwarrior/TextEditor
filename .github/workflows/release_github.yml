@@ -34,6 +34,8 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     needs: git_version_update
+    outputs:
+      new_version_tag: ${{{needs.git_version_update.outputs.new_version_tag}}
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
@@ -114,6 +116,6 @@ jobs:
             --header "Accept: application/vnd.github.v3+json" \
             --url "https://api.github.com/repos/Ruinerwarrior/TextEditor/releases" \
             --data '{
-             "tag_name": "${{needs.git_version_update.outputs.new_version}}",
+             "tag_name": "${{needs.build.outputs.new_version_tag}}",
              "discussion_category_name": "Announcements"
              }')
