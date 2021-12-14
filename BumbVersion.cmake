@@ -26,40 +26,40 @@ string(SUBSTRING ${CURRENT_VERSION} ${CURRENT_MINOR_INDEX} ${CURRENT_MINOR_LENGH
 string(SUBSTRING ${CURRENT_VERSION} ${CURRENT_PATCH_INDEX} ${CURRENT_PATCH_LENGTH}  CURRENT_PATCH_VERSION)
 
 if(${BUMB_VERSION} STREQUAL "MAJOR")
-  MATH(EXPR NEW_MAJOR_VERSION "${CURRENT_MAJOR_VERSION} + 1")
-  SET(NEW_MINOR_VERSION 0)
-  SET(NEW_PATCH_VERSION 0)
+  MATH(EXPR NEW_VERSION_MAJOR "${CURRENT_MAJOR_VERSION} + 1")
+  SET(NEW_VERSION_MINOR 0)
+  SET(NEW_VERSION_PATCH 0)
 elseif(${BUMB_VERSION} STREQUAL "MINOR")
-  SET(NEW_MAJOR_VERSION ${CURRENT_MAJOR_VERSION})
-  MATH(EXPR NEW_MINOR_VERSION "${CURRENT_MINOR_VERSION} + 1")
-  SET(NEW_PATCH_VERSION 0)
+  SET(NEW_VERSION_MAJOR ${CURRENT_MAJOR_VERSION})
+  MATH(EXPR NEW_VERSION_MINOR "${CURRENT_MINOR_VERSION} + 1")
+  SET(NEW_VERSION_PATCH 0)
 elseif(${BUMB_VERSION} STREQUAL "PATCH")
-  SET(NEW_MAJOR_VERSION ${CURRENT_MAJOR_VERSION})
-  SET(NEW_MINOR_VERSION ${CURRENT_MINOR_VERSION})
-  MATH(EXPR NEW_PATCH_VERSION "${CURRENT_PATCH_VERSION} + 1")
+  SET(NEW_VERSION_MAJOR ${CURRENT_MAJOR_VERSION})
+  SET(NEW_VERSION_MINOR ${CURRENT_MINOR_VERSION})
+  MATH(EXPR NEW_VERSION_PATCH "${CURRENT_PATCH_VERSION} + 1")
 endif()
 
-SET(NEW_VERSION "${NEW_MAJOR_VERSION}.${NEW_MINOR_VERSION}.${NEW_PATCH_VERSION}")
-SET(NEW_TAG "v${NEW_VERSION}")
+SET(NEW_VERSION "${NEW_VERSION_MAJOR}.${NEW_VERSION_MINOR}.${NEW_VERSION_PATCH}")
+SET(NEW_VERSION_TAG "v${NEW_VERSION}")
 
-message(STATUS "Bumping version from ${CURRENT_TAG} to ${NEW_TAG}")
+message(STATUS "Bumping version from ${CURRENT_TAG} to ${NEW_VERSION_TAG}")
 
 if(GIT_EXECUTABLE)
   # update git tag
   execute_process(
-    COMMAND ${GIT_EXECUTABLE} tag ${NEW_TAG}
+    COMMAND ${GIT_EXECUTABLE} tag ${NEW_VERSION_TAG}
     WORKING_DIRECTORY .
     RESULT_VARIABLE GIT_DESCRIBE_ERROR_CODE
     )
   if(GIT_DESCRIBE_ERROR_CODE)
-    message(FATAL_ERROR "Unable to bumb version to ${NEW_TAG}")
+    message(FATAL_ERROR "Unable to bumb version to ${NEW_VERSION_TAG}")
   else()
-    message(STATUS "git tag bumbed to ${NEW_TAG}")
+    message(STATUS "git tag bumbed to ${NEW_VERSION_TAG}")
   endif()
 
   # update git tag
   execute_process(
-    COMMAND ${GIT_EXECUTABLE} push origin ${NEW_TAG}
+    COMMAND ${GIT_EXECUTABLE} push origin ${NEW_VERSION_TAG}
     WORKING_DIRECTORY .
     RESULT_VARIABLE GIT_DESCRIBE_ERROR_CODE
     )
@@ -70,8 +70,8 @@ if(GIT_EXECUTABLE)
   endif()
 endif()
 
-message("::set-output name=new_version_tag::${NEW_TAG}")
+message("::set-output name=new_version_tag::${NEW_VERSION_TAG}")
 message("::set-output name=new_version::${NEW_VERSION}")
-message("::set-output name=new_version_major::${NEW_MAJOR_VERSION}")
-message("::set-output name=new_version_minor::${NEW_MINOR_VERSION}")
-message("::set-output name=new_version_patch::${NEW_PATCH_VERSION}")
+message("::set-output name=new_version_major::${NEW_VERSION_MAJOR}")
+message("::set-output name=new_version_minor::${NEW_VERSION_MINOR}")
+message("::set-output name=new_version_patch::${NEW_VERSION_PATCH}")
