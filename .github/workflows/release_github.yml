@@ -75,4 +75,29 @@ jobs:
           # Artifact name
           name: ${{ matrix.os }}
           path: build/installer
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download windows build
+        uses: actions/download-artifact@v2.1.0
+        with:
+          # Artifact name
+          name: windows-latest
+          # Destination path
+          path: windows-latest
+      - name: Download ubuntu build
+        uses: actions/download-artifact@v2.1.0
+        with:
+          # Artifact name
+          name: ubuntu-latest
+          # Destination path
+          path: ubuntu-latest
+      - name: Download macos build
+        uses: actions/download-artifact@v2.1.0
+        with:
+          # Artifact name
+          name: macos-latest
+          # Destination path
+          path: macos-latest
       
