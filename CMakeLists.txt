@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.21.1)
 
+message(STATUS ${CURRENT_VERSION})
+
 # get version from git tag or create default
-if(NOT ${CURRENT_VERSION})
+if(NOT DEFINED CURRENT_VERSION)
     include(GenerateVersion.cmake)
 endif()
 
