@@ -124,7 +124,6 @@ jobs:
           FILE="windows-latest/TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip" \
           curl \
           -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-          -H "Content-Length: "
           -H "Content-Type: application/octet-stream" \
           --data-binary @$FILE  \
           "${{fromJson(steps.create_release.outputs.create_release_result).assets_url}}?name=$(basename $FILE}"
