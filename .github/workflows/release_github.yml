@@ -104,6 +104,8 @@ jobs:
           # Destination path
           path: macos-latest
         
+      - run: echo ${{needs.git_version_update.outputs.new_version_tag}}
+      
       - name: Create Release
         id: create_release
         run: |
