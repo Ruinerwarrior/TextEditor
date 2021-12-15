@@ -40,5 +40,5 @@ enable_testing()
 
 add_subdirectory("TextEditor")
 
-include(CPack.cmake)
+# include(CPack.cmake)
 include(CPack)
