@@ -126,4 +126,3 @@ jobs:
           --header "Content-Type: application/zip" \
           --data-binary @windows-latest/TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip  \
           "https://uploads.github.com/repos/Ruinerwarrior/TextEditor/releases/${{needs.git_version_update.outputs.new_version_tag}}/assets?name=TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip"
-::set-output name=current_version_tag::${CURRENT_TAG}"
