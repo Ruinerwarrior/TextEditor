@@ -125,4 +125,4 @@ jobs:
           --header "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           --header "Content-Type: application/zip" \
           --data-binary @windows-latest/TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip  \
-          "${{fromJson(steps.create_release.outputs.create_release_result).assets_url}}?name=TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip"
+          "${{fromJson(steps.create_release.outputs.create_release_result).assets_url}}?name=$(basename windows-latest/TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip"
