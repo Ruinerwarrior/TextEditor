@@ -126,8 +126,9 @@ jobs:
 
       - name: Upload windows release assets
         run: |
-          curl \
+          curl -X POST \
           -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           -H "Content-Type: application/octet-stream" \
+          -H "Accept: application/vnd.github.v3+json" \
           --data-binary @${{steps.get_asset_name.outputs.filename}}  \
           "${{fromJson(steps.create_release.outputs.create_release_result).assets_url}}?name=${{steps.get_asset_name.outputs.filename}}"
