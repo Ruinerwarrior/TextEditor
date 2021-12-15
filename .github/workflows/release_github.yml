@@ -76,50 +76,50 @@ jobs:
           name: ${{ matrix.os }}
           path: build/installer
 
-  release:
-    runs-on: ubuntu-latest
-    needs: [git_version_update, build]
-    steps:      
-      - name: Download windows build
-        uses: actions/download-artifact@v2.1.0
-        with:
-          # Artifact name
-          name: windows-latest
-          # Destination path
-          path: windows-latest
+  # release:
+  #   runs-on: ubuntu-latest
+  #   needs: [git_version_update, build]
+  #   steps:      
+  #     - name: Download windows build
+  #       uses: actions/download-artifact@v2.1.0
+  #       with:
+  #         # Artifact name
+  #         name: windows-latest
+  #         # Destination path
+  #         path: windows-latest
           
-      - name: Download ubuntu build
-        uses: actions/download-artifact@v2.1.0
-        with:
-          # Artifact name
-          name: ubuntu-latest
-          # Destination path
-          path: ubuntu-latest
+  #     - name: Download ubuntu build
+  #       uses: actions/download-artifact@v2.1.0
+  #       with:
+  #         # Artifact name
+  #         name: ubuntu-latest
+  #         # Destination path
+  #         path: ubuntu-latest
           
-      - name: Download macos build
-        uses: actions/download-artifact@v2.1.0
-        with:
-          # Artifact name
-          name: macos-latest
-          # Destination path
-          path: macos-latest
+  #     - name: Download macos build
+  #       uses: actions/download-artifact@v2.1.0
+  #       with:
+  #         # Artifact name
+  #         name: macos-latest
+  #         # Destination path
+  #         path: macos-latest
         
-      - name: Create Release
-        id: create_release
-        run: |
-            curl \
-            --request POST \
-            --header "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            --header "Accept: application/vnd.github.v3+json" \
-            --url "https://api.github.com/repos/Ruinerwarrior/TextEditor/releases" \
-            --data '{
-             "tag_name": "${{needs.build.outputs.new_version_tag}}",
-             "discussion_category_name": "Announcements"
-             }'
-      - name: Upload windows release assets
-        run: |
-          curl \
-          --header "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-          --header "Content-Type: application/zip" \
-          --data-binary @windows-latest/TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip  \
-          "https://uploads.github.com/repos/Ruinerwarrior/TextEditor/releases/${{needs.git_version_update.outputs.new_version_tag}}/assets?name=TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip"
+  #     - name: Create Release
+  #       id: create_release
+  #       run: |
+  #           curl \
+  #           --request POST \
+  #           --header "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+  #           --header "Accept: application/vnd.github.v3+json" \
+  #           --url "https://api.github.com/repos/Ruinerwarrior/TextEditor/releases" \
+  #           --data '{
+  #            "tag_name": "${{needs.build.outputs.new_version_tag}}",
+  #            "discussion_category_name": "Announcements"
+  #            }'
+  #     - name: Upload windows release assets
+  #       run: |
+  #         curl \
+  #         --header "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+  #         --header "Content-Type: application/zip" \
+  #         --data-binary @windows-latest/TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip  \
+  #         "https://uploads.github.com/repos/Ruinerwarrior/TextEditor/releases/${{needs.git_version_update.outputs.new_version_tag}}/assets?name=TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip"
