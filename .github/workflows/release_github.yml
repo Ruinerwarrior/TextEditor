@@ -119,9 +119,11 @@ jobs:
              "discussion_category_name": "Announcements"
              }')
       - run: echo ${{steps.create_release.outputs.create_release_result}}
+
       - name: Get Asset Name
         id: get_asset_name
-        run:  echo ::set-output name=filename::$("windows-latest/TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip")
+        run:  echo ::set-output name=filename::"windows-latest/TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip"
+
       - name: Upload windows release assets
         run: |
           curl \
