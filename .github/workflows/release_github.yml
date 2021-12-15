@@ -117,8 +117,9 @@ jobs:
             --data '{
              "tag_name": "${{needs.git_version_update.outputs.new_version_tag}}",
              "discussion_category_name": "Announcements"
-             }')
-      - run: echo ${{steps.create_release.outputs.create_release_result}}
+             }')         
+        
+      - run: ls -lR
 
       - name: Get Asset Name
         id: get_asset_name
