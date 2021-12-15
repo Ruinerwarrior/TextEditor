@@ -5,7 +5,7 @@ on:
       BUMB_VERSION_PART:
         description: 'version part to bumb, can be MAJOR, MINOR or PATCH'     
         required: true
-        default: 'MINOR'
+        default: 'PATCH'
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
