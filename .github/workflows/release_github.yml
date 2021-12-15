@@ -130,4 +130,4 @@ jobs:
           -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           -H "Content-Type: application/octet-stream" \
           --data-binary @${{steps.get_asset_name.outputs.filename}}  \
-          "${{fromJson(steps.create_release.outputs.create_release_result).assets_url}}?name=$(basename ${{steps.get_asset_name.outputs.filename}})"
+          "${{fromJson(steps.create_release.outputs.create_release_result).assets_url}}?name=${{steps.get_asset_name.outputs.filename}}"
