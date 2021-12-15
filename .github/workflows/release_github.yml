@@ -122,7 +122,7 @@ jobs:
 
       - name: Get Asset Name
         id: get_asset_name
-        run:  echo ::set-output name=filename::"windows-latest/TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip"
+        run:  echo ::set-output name=filename::"TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip"
 
       - name: Upload windows release assets
         run: |
@@ -130,5 +130,5 @@ jobs:
           -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           -H "Content-Type: application/octet-stream" \
           -H "Accept: application/vnd.github.v3+json" \
-          --data-binary @${{steps.get_asset_name.outputs.filename}}  \
-          "${{fromJson(steps.create_release.outputs.create_release_result).assets_url}}?name=${{steps.get_asset_name.outputs.filename}}"
+          --data-binary @window-latest/${{steps.get_asset_name.outputs.filename}}  \
+          "${{fromJson(steps.create_release.outputs.create_release_result).assets_url}}?name={{steps.get_asset_name.outputs.filename}}"
