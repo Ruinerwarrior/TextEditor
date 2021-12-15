@@ -121,8 +121,10 @@ jobs:
       - run: echo ${{steps.create_release.outputs.create_release_result}}
       - name: Upload windows release assets
         run: |
+          FILE="windows-latest/TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip"
           curl \
-          --header "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-          --header "Content-Type: application/zip" \
-          --data-binary @windows-latest/TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip  \
-          "${{fromJson(steps.create_release.outputs.create_release_result).assets_url}}?name=$(basename windows-latest/TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip"
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Content-Length: "
+          -H "Content-Type: application/octet-stream" \
+          --data-binary @$FILE  \
+          "${{fromJson(steps.create_release.outputs.create_release_result).assets_url}}?name=$(basename $FILE}"
