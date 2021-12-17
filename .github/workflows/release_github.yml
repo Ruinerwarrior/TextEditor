@@ -102,25 +102,11 @@ jobs:
           # Artifact name
           name: macos-latest
           # Destination path
-          path: macos-latest   
+          path: macos-latest
           
-      - run: ls -lR | more      
+      - run: ls -lR | more 
       
-      - name: Get Asset Name
-        id: get_asset_name
-        run:  echo ::set-output name=filename::"TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip"
-
-      
-      - name: Get windows asset size
-        id: windows_asset_size
-        run: |
-           echo ::set-output name=size::$(stat --format=%s "windows-latest/${{steps.get_asset_name.outputs.filename}}")
-        
-      - run: echo ${{steps.windows_asset_size.outputs.size}}
-      
-      - run: echo ${{needs.git_version_update.outputs.new_version_tag}}
-
-      - name: Create Release
+      - name: Create release
         id: create_release
         run: |
             echo ::set-output name=create_release_result::$(curl \
@@ -132,15 +118,65 @@ jobs:
              "tag_name": "${{needs.git_version_update.outputs.new_version_tag}}",
              "discussion_category_name": "Announcements"
              }')
- 
-      - run: echo ${{steps.create_release.outputs.create_release_result}}
+      
+      # windows
+      - name: Get windows asset name
+        id: windows_asset_name
+        run:  echo ::set-output name=filename::"TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip"
 
+      - name: Get windows asset size
+        id: windows_asset_size
+        run: |
+           echo ::set-output name=size::$(stat --format=%s "windows-latest/${{steps.windows_asset_name.outputs.filename}}")
+           
       - name: Upload windows release assets
         run: |
           curl -X POST \
           -H "Content-Length: ${{steps.windows_asset_size.outputs.size}}" \
           -H "Content-Type: application/octet-stream" \
-          -T "windows-latest/${{steps.get_asset_name.outputs.filename}}" \
+          -T "windows-latest/${{steps.windows_asset_name.outputs.filename}}" \
           -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           -H "Accept: application/vnd.github.v3+json" \
-          https://uploads.github.com/repos/Ruinerwarrior/TextEditor/releases/${{fromJson(steps.create_release.outputs.create_release_result).id}}/assets?name=${{steps.get_asset_name.outputs.filename}} | cat
+          https://uploads.github.com/repos/Ruinerwarrior/TextEditor/releases/${{fromJson(steps.create_release.outputs.create_release_result).id}}/assets?name=${{steps.windows_asset_name.outputs.filename}} | cat
+          
+      # linux 
+      - name: Get ubuntu asset name
+        id: ubuntu_asset_name
+        run:  echo ::set-output name=filename::"TextEditor-${{needs.git_version_update.outputs.new_version}}-ubuntu.zip"
+
+      - name: Get ubuntu asset size
+        id: ubuntu_asset_size
+        run: |
+           echo ::set-output name=size::$(stat --format=%s "ubuntu-latest/${{steps.ubuntu_asset_name.outputs.filename}}")
+           
+      - name: Upload ubuntu release assets
+        run: |
+          curl -X POST \
+          -H "Content-Length: ${{steps.ubuntu_asset_size.outputs.size}}" \
+          -H "Content-Type: application/octet-stream" \
+          -T "ubuntu-latest/${{steps.ubuntu_asset_name.outputs.filename}}" \
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://uploads.github.com/repos/Ruinerwarrior/TextEditor/releases/${{fromJson(steps.create_release.outputs.create_release_result).id}}/assets?name=${{steps.ubuntu_asset_name.outputs.filename}} | cat
+          
+      # mac os    
+      - name: Get macos asset name
+        id: macos_asset_name
+        run:  echo ::set-output name=filename::"TextEditor-${{needs.git_version_update.outputs.new_version}}-macos.zip"
+      
+      - name: Get macos asset size
+        id: macos_asset_size
+        run: |
+           echo ::set-output name=size::$(stat --format=%s "macos-latest/${{steps.macos_asset_name.outputs.filename}}")
+ 
+      - name: Upload macos release assets
+        run: |
+          curl -X POST \
+          -H "Content-Length: ${{steps.macos_asset_size.outputs.size}}" \
+          -H "Content-Type: application/octet-stream" \
+          -T "macos-latest/${{steps.get_asset_name.outputs.filename}}" \
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://uploads.github.com/repos/Ruinerwarrior/TextEditor/releases/${{fromJson(steps.create_release.outputs.create_release_result).id}}/assets?name=${{steps.macos_asset_name.outputs.filename}} | cat
+
+  
