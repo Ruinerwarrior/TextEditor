@@ -106,12 +106,15 @@ jobs:
           
       - run: ls -lR | more      
       
+      - name: Get Asset Name
+        id: get_asset_name
+        run:  echo ::set-output name=filename::"TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip"
+
+      
       - name: Get windows asset size
         id: windows_asset_size
         run: |
-          myfilesize=$(wc -c "/etc/passwd" | awk '{print $1}') \
-          printf "%d\n" $myfilesize \
-          echo ::set-output name=size::$myfilesize
+           echo ::set-output name=size::$(stat --format=%s "windows-latest/${{steps.get_asset_name.outputs.filename}}")
         
       - run: echo ${{steps.windows_asset_size.outputs.size}}
       
@@ -131,10 +134,6 @@ jobs:
              }')
  
       - run: echo ${{steps.create_release.outputs.create_release_result}}
-
-      - name: Get Asset Name
-        id: get_asset_name
-        run:  echo ::set-output name=filename::"TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip"
 
       - name: Upload windows release assets
         run: |
