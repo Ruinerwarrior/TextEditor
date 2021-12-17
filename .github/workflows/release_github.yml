@@ -108,7 +108,7 @@ jobs:
       
       - name: Get windows asset size
       - id: windows_asset_size
-      - run: myfilesize=$(wc -c "/etc/passwd" | awk '{print $1}') \
+        run: myfilesize=$(wc -c "/etc/passwd" | awk '{print $1}') \
              printf "%d\n" $myfilesize \
              echo ::set-output name=size::$myfilesize
         
@@ -128,6 +128,7 @@ jobs:
              "tag_name": "${{needs.git_version_update.outputs.new_version_tag}}",
              "discussion_category_name": "Announcements"
              }')
+ 
       - run: echo ${{steps.create_release.outputs.create_release_result}}
 
       - name: Get Asset Name
