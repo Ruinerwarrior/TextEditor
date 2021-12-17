@@ -133,4 +133,4 @@ jobs:
           -H "Content-Type: application/octet-stream" \
           -H "Accept: application/vnd.github.v3+json" \
           --data-binary @windows-latest/${{steps.get_asset_name.outputs.filename}}  \
-          "${{fromJson(steps.create_release.outputs.create_release_result).assets_url}}?name=${{steps.get_asset_name.outputs.filename}}"
+          "https://uploads.github.com/repos/Ruinerwarrior/TextEditor/releases/${{fromJson(steps.create_release.outputs.create_release_result).id}}/assets?name=${{steps.get_asset_name.outputs.filename}} | cat"
