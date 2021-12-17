@@ -103,6 +103,8 @@ jobs:
           name: macos-latest
           # Destination path
           path: macos-latest
+          
+      - run: ls -lR | more
         
       - run: echo ${{needs.git_version_update.outputs.new_version_tag}}
 
@@ -131,4 +133,4 @@ jobs:
           -H "Content-Type: application/octet-stream" \
           -H "Accept: application/vnd.github.v3+json" \
           --data-binary @window-latest/${{steps.get_asset_name.outputs.filename}}  \
-          "${{fromJson(steps.create_release.outputs.create_release_result).assets_url}}?name={{steps.get_asset_name.outputs.filename}}"
+          "${{fromJson(steps.create_release.outputs.create_release_result).assets_url}}?name=${{steps.get_asset_name.outputs.filename}}"
