@@ -143,4 +143,4 @@ jobs:
           -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           -T "windows-latest/${{steps.get_asset_name.outputs.filename}}" \
           -H "Accept: application/vnd.github.v3+json" \
-          "https://uploads.github.com/repos/Ruinerwarrior/TextEditor/releases/${{fromJson(steps.create_release.outputs.create_release_result).id}}/assets?name=${{steps.get_asset_name.outputs.filename}}" | cat
+          "https://uploads.github.com/repos/Ruinerwarrior/TextEditor/releases/${{fromJson(steps.create_release.outputs.create_release_result).id}}/assets?name=${{steps.get_asset_name.outputs.filename}}"
