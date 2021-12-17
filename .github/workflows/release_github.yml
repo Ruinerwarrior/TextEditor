@@ -102,8 +102,22 @@ jobs:
           # Artifact name
           name: macos-latest
           # Destination path
-          path: macos-latest
+          path: macos-latest   
+          
+      - run: ls -lR | more      
+      
+      - name: Get Asset Name
+        id: get_asset_name
+        run:  echo ::set-output name=filename::"TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip"
+
+      
+      - name: Get windows asset size
+        id: windows_asset_size
+        run: |
+           echo ::set-output name=size::$(stat --format=%s "windows-latest/${{steps.get_asset_name.outputs.filename}}")
         
+      - run: echo ${{steps.windows_asset_size.outputs.size}}
+      
       - run: echo ${{needs.git_version_update.outputs.new_version_tag}}
 
       - name: Create Release
@@ -117,19 +131,16 @@ jobs:
             --data '{
              "tag_name": "${{needs.git_version_update.outputs.new_version_tag}}",
              "discussion_category_name": "Announcements"
-             }')         
-        
-      - run: ls -lR
-
-      - name: Get Asset Name
-        id: get_asset_name
-        run:  echo ::set-output name=filename::"TextEditor-${{needs.git_version_update.outputs.new_version}}-win64.zip"
+             }')
+ 
+      - run: echo ${{steps.create_release.outputs.create_release_result}}
 
       - name: Upload windows release assets
         run: |
           curl -X POST \
-          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Content-Length: ${{steps.windows_asset_size.outputs.size}}" \
           -H "Content-Type: application/octet-stream" \
+          -T "windows-latest/${{steps.get_asset_name.outputs.filename}}" \
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           -H "Accept: application/vnd.github.v3+json" \
-          --data-binary @window-latest/${{steps.get_asset_name.outputs.filename}}  \
-          "${{fromJson(steps.create_release.outputs.create_release_result).assets_url}}?name={{steps.get_asset_name.outputs.filename}}"
+          https://uploads.github.com/repos/Ruinerwarrior/TextEditor/releases/${{fromJson(steps.create_release.outputs.create_release_result).id}}/assets?name=${{steps.get_asset_name.outputs.filename}} | cat
