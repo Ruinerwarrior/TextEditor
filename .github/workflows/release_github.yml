@@ -106,11 +106,12 @@ jobs:
           
       - run: ls -lR | more      
       
-      # - name: Get windows asset size
-      # - id: windows_asset_size
-      #   run: myfilesize=$(wc -c "/etc/passwd" | awk '{print $1}') \
-      #        printf "%d\n" $myfilesize \
-      #        echo ::set-output name=size::$myfilesize
+      - name: Get windows asset size
+        id: windows_asset_size
+        run: |
+          myfilesize=$(wc -c "/etc/passwd" | awk '{print $1}') \
+          printf "%d\n" $myfilesize \
+          echo ::set-output name=size::$myfilesize
         
       - run: echo ${{steps.windows_asset_size.outputs.size}}
       
