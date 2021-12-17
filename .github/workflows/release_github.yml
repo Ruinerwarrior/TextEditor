@@ -142,7 +142,7 @@ jobs:
       # linux 
       - name: Get ubuntu asset name
         id: ubuntu_asset_name
-        run:  echo ::set-output name=filename::"TextEditor-${{needs.git_version_update.outputs.new_version}}-ubuntu.zip"
+        run:  echo ::set-output name=filename::"TextEditor-${{needs.git_version_update.outputs.new_version}}-Linux.zip"
 
       - name: Get ubuntu asset size
         id: ubuntu_asset_size
@@ -162,7 +162,7 @@ jobs:
       # mac os    
       - name: Get macos asset name
         id: macos_asset_name
-        run:  echo ::set-output name=filename::"TextEditor-${{needs.git_version_update.outputs.new_version}}-macos.zip"
+        run:  echo ::set-output name=filename::"TextEditor-${{needs.git_version_update.outputs.new_version}}-Darwin.zip"
       
       - name: Get macos asset size
         id: macos_asset_size
