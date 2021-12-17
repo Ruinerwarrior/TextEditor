@@ -104,8 +104,6 @@ jobs:
           # Destination path
           path: macos-latest
           
-      - run: ls -lR | more 
-      
       - name: Create release
         id: create_release
         run: |
